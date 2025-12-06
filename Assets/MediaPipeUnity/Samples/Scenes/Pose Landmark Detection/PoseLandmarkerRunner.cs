@@ -6,6 +6,7 @@
 
 using System.Collections;
 using Mediapipe.Tasks.Vision.PoseLandmarker;
+using Runtime;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -18,7 +19,8 @@ namespace Mediapipe.Unity.Sample.PoseLandmarkDetection
     private Experimental.TextureFramePool _textureFramePool;
 
     public readonly PoseLandmarkDetectionConfig config = new PoseLandmarkDetectionConfig();
-
+    
+    
     public override void Stop()
     {
       base.Stop();

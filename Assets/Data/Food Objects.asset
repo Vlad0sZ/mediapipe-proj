@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3eb65cc2d97147d197135ae45fb2591b, type: 3}
+  m_Name: Food Objects
+  m_EditorClassIdentifier: Assembly-CSharp::Runtime.Game.ScriptableData.FoodObjects
+  foodObjects:
+  - label: "\u0421\u0443\u0448\u0438"
+    rightObjects:
+    - {fileID: 11400000, guid: 307844918ba21504489b85c9fbd18bf6, type: 2}
+    - {fileID: 11400000, guid: 251cb4838d8a2c6448f83e2e6715a042, type: 2}
+    - {fileID: 11400000, guid: ab46a736cfc7ceb48bde5ee977387ffc, type: 2}
+    - {fileID: 11400000, guid: dbf7e5ac74622ea40976368196bab02f, type: 2}
+    - {fileID: 11400000, guid: 2ba4ccaa22fdb1e44bbb2dfe97bd856f, type: 2}
+    wrongObjects:
+    - {fileID: 11400000, guid: 129448ef759bf66499e0e41b1b799a1f, type: 2}
+    - {fileID: 11400000, guid: 529a4b176e7cf6a46abdbe9dee63e323, type: 2}
+    - {fileID: 11400000, guid: 193f98ede0f26e844b0ad1885ebedae7, type: 2}
+    - {fileID: 11400000, guid: de267710a22f96c449405ff839da5227, type: 2}
+    - {fileID: 11400000, guid: 73b61fcbd6ddc3a40b41c2b9c89242da, type: 2}
+    - {fileID: 11400000, guid: 15b1e7d674d9597489aac0ccfec2bb53, type: 2}
+    - {fileID: 11400000, guid: 92c62bbc724132444bcad1a2b459a7fe, type: 2}
+    - {fileID: 11400000, guid: a3dd3cd8cefc67e4ea858f077c57d1d2, type: 2}
+    - {fileID: 11400000, guid: b20aed7b0967d7f46923baa0cff3c79d, type: 2}
+    - {fileID: 11400000, guid: e8703da886e0256428109f7facbe7b59, type: 2}

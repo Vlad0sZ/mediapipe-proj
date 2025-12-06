@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" remoteFilesAllowedToDisappearOnAutoupload="false">
+    <serverData>
+      <paths name="gorbulka/tests">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/Packages/com.github.homuler.mediapipe" web="/" />
+            <mapping local="$PROJECT_DIR$/Packages" web="/" />
+            <mapping local="$PROJECT_DIR$/ProjectSettings" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.ext.nunit" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.multiplayer.center" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.render-pipelines.core" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.render-pipelines.universal" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.render-pipelines.universal-config" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.rendering.light-transport" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.shadergraph" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.test-framework" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.ugui" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.accessibility" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.ai" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.androidjni" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.animation" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.assetbundle" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.audio" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.cloth" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.director" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.hierarchycore" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.imageconversion" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.imgui" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.jsonserialize" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.particlesystem" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.physics" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.physics2d" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.screencapture" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.subsystems" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.terrain" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.terrainphysics" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.tilemap" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.ui" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.uielements" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.umbra" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.unityanalytics" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.unitywebrequest" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.unitywebrequestassetbundle" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.unitywebrequestaudio" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.unitywebrequesttexture" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.unitywebrequestwww" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.vehicles" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.video" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.vr" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.wind" web="/" />
+            <mapping local="C:/Program Files/Unity/6000.2.12f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.modules.xr" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>
