@@ -2,7 +2,7 @@
 
 namespace Runtime.UI
 {
-    public sealed class MainMenuScreen : ButtonToStateComponent<PrepareGameState>
+    public sealed class MainMenuScreen : ButtonToStateComponent<MainMenuState>
     {
     }
 }

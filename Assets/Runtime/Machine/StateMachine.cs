@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Runtime.Machine
 {
@@ -17,6 +18,7 @@ namespace Runtime.Machine
                 throw new Exception($"Can not find state by type {typeof(T)}");
 
             _currentState?.Deactivate();
+
             _currentState = state;
             _currentState.Activate();
         }

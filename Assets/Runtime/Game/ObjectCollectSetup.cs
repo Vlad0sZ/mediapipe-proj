@@ -2,19 +2,26 @@
 using System.Collections.Generic;
 using R3;
 using Runtime.Game.Interfaces;
+using Runtime.Game.Publishers;
 using UnityEngine;
 
 namespace Runtime.Game
 {
-    public class CollectController : ObjectSpawnerOwner
+    public class ObjectCollectSetup : ObjectSpawnerOwner, IScorePublisher
     {
         [SerializeField] private int score;
 
         private readonly Dictionary<GameObject, IDisposable> _subscriptions = new();
+        private readonly Subject<ScoreModel> _scoreSubject = new();
         private IDisposable _disposable;
+
+        public ScoreModel Score => new ScoreModel(score);
+        public Observable<ScoreModel> OnScore => _scoreSubject;
 
         private void OnEnable()
         {
+            score = 0;
+
             var createSub = ObjectSpawner.OnObjectSpawned
                 .Where(u => u is ObjectSpawner.SpawnEvent.Created)
                 .Select(u => u.Object)
@@ -25,7 +32,10 @@ namespace Runtime.Game
                 .Select(u => u.Object)
                 .Subscribe(SubscribeToRelease);
 
-            _disposable = Disposable.Combine(createSub, releaseSub);
+            var spawnSub = ObjectSpawner.OnSpawnProcess
+                .Subscribe(SubscribeToSpawnProcess);
+
+            _disposable = Disposable.Combine(createSub, releaseSub, spawnSub);
         }
 
         private void OnDisable()
@@ -49,10 +59,16 @@ namespace Runtime.Game
                 d?.Dispose();
         }
 
+        private void SubscribeToSpawnProcess(bool isSpawningNow)
+        {
+            if (isSpawningNow)
+                score = 0;
+        }
+
         private void Collect(ICollectableItem collectable)
         {
             score += collectable.Points;
-            UnityEngine.Debug.Log($"Update score (+{collectable.Points}), score = {score}");
+            _scoreSubject.OnNext(new ScoreModel(score));
         }
     }
 }

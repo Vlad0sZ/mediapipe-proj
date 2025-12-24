@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 1811807839220153080}
   - component: {fileID: 8160226252822637698}
   - component: {fileID: 8212631917494988298}
-  - component: {fileID: 8646603458916430089}
   - component: {fileID: 8838526384741303050}
+  - component: {fileID: 7527419349652582841}
   m_Layer: 0
   m_Name: CollectableItem
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 8, y: 8, z: 8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -59,10 +59,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!135 &8160226252822637698
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -96,20 +96,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16f32cf6f86c4440996ec02f1cd3a755, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Runtime.Game.CollectableItem
---- !u!114 &8646603458916430089
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8120835478485320753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b4b9d3d47b648929c805665f1fc644b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Runtime.Game.FallComponent
-  gravityMinMax: {x: 1, y: 5}
-  rotationSpeedMinMax: {x: 5, y: 8}
 --- !u!114 &8838526384741303050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,3 +108,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f4beefb2a6b486ebbb03170ca837cbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Runtime.Game.MouseClickCollectable
+--- !u!114 &7527419349652582841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8120835478485320753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ae28387f14b4f529f635e97172c11ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Runtime.Game.FallComponentNew
+  fallSpeed: 5
+  rotationSpeed: 180
+  rotationAxis: {x: 0.5, y: 1, z: 0.35}
+  disableY: -10

@@ -13,7 +13,7 @@ namespace Runtime.Machine.States
 
         private static IEnumerator ExitAfter()
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.24f);
             Application.Quit();
         }
 

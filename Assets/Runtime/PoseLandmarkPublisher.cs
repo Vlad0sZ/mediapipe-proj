@@ -17,6 +17,7 @@ namespace Runtime
         public readonly PoseLandmarkDetectionConfig Config = new PoseLandmarkDetectionConfig();
         private readonly Subject<PoseLandmarkerResult> _onResult = new Subject<PoseLandmarkerResult>();
         public Observable<PoseLandmarkerResult> OnResult => _onResult;
+        public void Restart() => this.Play();
 
         private TextureFramePool _textureFramePool;
 

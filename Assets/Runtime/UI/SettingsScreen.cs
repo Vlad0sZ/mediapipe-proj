@@ -14,10 +14,14 @@ namespace Runtime.UI
         [SerializeField] private TMP_Dropdown dropdown;
 
         private IWebCamInitializer _webCamInitializer;
+        private IImageSourceProvider _imageSourceProvider;
 
         [Inject]
-        public void Construct(IWebCamInitializer webCamInitializer) =>
+        public void Construct(IWebCamInitializer webCamInitializer, IImageSourceProvider imageSourceProvider)
+        {
             _webCamInitializer = webCamInitializer;
+            _imageSourceProvider = imageSourceProvider;
+        }
 
         private void OnEnable() => dropdown.onValueChanged.AddListener(OnCameraSelected);
 
@@ -48,6 +52,6 @@ namespace Runtime.UI
         }
 
         private void OnCameraSelected(int cameraIndex) =>
-            ImageSourceProvider.ImageSource.SelectSource(cameraIndex);
+            _imageSourceProvider.ChangeSource(cameraIndex);
     }
 }

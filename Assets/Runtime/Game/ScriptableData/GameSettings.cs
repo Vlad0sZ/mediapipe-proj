@@ -6,27 +6,45 @@ namespace Runtime.Game.ScriptableData
     [CreateAssetMenu(fileName = "Game Settings", menuName = "Game/Settings", order = 2)]
     public class GameSettings : ScriptableObject
     {
+        public record Settings(
+            LevelSettings LevelSettings,
+            SpawnSettings SpawnSettings,
+            ObjectsSettings ObjectsSettings);
+
         [System.Serializable]
         public struct SpawnSettings
         {
-            public float spawnDelay;
             public int maxObjectPerSpawn;
-            public int maxObjects;
+            public float spawnDelay;
         }
-        
+
         [System.Serializable]
         public struct LevelSettings
         {
             public float levelTime;
         }
 
-        [FormerlySerializedAs("settings")] [SerializeField] private SpawnSettings[] spawnSettings;
-        [SerializeField] private LevelSettings[] levelSettings;
+        [System.Serializable]
+        public struct ObjectsSettings
+        {
+            public Vector2 minMaxFallSpeed;
+            public Vector2 minMaxRotationSpeed;
+        }
 
-        public SpawnSettings GetSpawnSettings(int byLevel) =>
-            spawnSettings[Mathf.Min(byLevel, spawnSettings.Length)];
-        
-        public LevelSettings GetLevelSettings(int byLevel) => 
-            levelSettings[Mathf.Min(byLevel, levelSettings.Length)];
+        [FormerlySerializedAs("settings")] [SerializeField]
+        private SpawnSettings[] spawnSettings;
+
+        [SerializeField] private LevelSettings[] levelSettings;
+        [SerializeField] private ObjectsSettings[] objectsSettings;
+
+
+        public Settings GetSettings(int byLevel)
+        {
+            var spawn = spawnSettings[Mathf.Min(byLevel, spawnSettings.Length)];
+            var level = levelSettings[Mathf.Min(byLevel, levelSettings.Length)];
+            var objectsSetting = objectsSettings[Mathf.Min(byLevel, objectsSettings.Length)];
+
+            return new Settings(level, spawn, objectsSetting);
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Runtime.Game.Interfaces;
+﻿using System;
+using Runtime.Game.Interfaces;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -9,6 +10,7 @@ namespace Runtime.Game
     {
         private ICollectableItem _collectableItem;
         private void Awake() => _collectableItem = GetComponent<ICollectableItem>();
+
         public void OnPointerClick(PointerEventData eventData)
         {
             UnityEngine.Debug.Log($"collect {_collectableItem.gameObject}");

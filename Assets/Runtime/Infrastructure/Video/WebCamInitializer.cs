@@ -10,8 +10,9 @@ namespace Runtime.Infrastructure.Video
         {
             WebCamDevice[] devices = WebCamTexture.devices;
 
-            UnityEngine.Debug.Log($"get devices = {devices.Length}: \n {string.Join(" || ", devices.Select(x => x.name))}");
-            
+            UnityEngine.Debug.Log(
+                $"get devices = {devices.Length}: \n {string.Join(" || ", devices.Select(x => x.name))}");
+
             if (devices.Length == 0)
                 return false;
 

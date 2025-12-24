@@ -9,7 +9,7 @@ namespace Runtime.Game
         protected IObjectSpawner ObjectSpawner { get; private set; }
 
         [Inject]
-        public void Construct(IObjectSpawner objectSpawner) =>
+        public virtual void Construct(IObjectSpawner objectSpawner) =>
             ObjectSpawner = objectSpawner;
     }
 }

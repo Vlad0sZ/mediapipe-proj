@@ -6,5 +6,7 @@ namespace Runtime
     public interface IPoseLandmarkPublisher
     {
         Observable<PoseLandmarkerResult> OnResult { get; }
+
+        void Restart();
     }
 }

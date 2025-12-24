@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: Game Settings
   m_EditorClassIdentifier: Assembly-CSharp::Runtime.Game.ScriptableData.GameSettings
   spawnSettings:
-  - spawnDelay: 2
-    maxObjectPerSpawn: 3
-    maxObjects: 10
+  - maxObjectPerSpawn: 3
+    spawnDelay: 1.5
   levelSettings:
-  - levelTime: 50
+  - levelTime: 60
+  objectsSettings:
+  - minMaxFallSpeed: {x: 0.5, y: 1.5}
+    minMaxRotationSpeed: {x: 60, y: 80}

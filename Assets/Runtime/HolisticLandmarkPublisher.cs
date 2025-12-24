@@ -23,7 +23,7 @@ namespace Runtime
 
         private readonly object _lockObj = new();
         public R3.Observable<PoseLandmarkerResult> OnResult => _subjectResult;
-
+        public void Restart() => this.Play();
 
         public HolisticTrackingGraph.ModelComplexity modelComplexity
         {

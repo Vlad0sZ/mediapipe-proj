@@ -1,7 +1,5 @@
-using System;
 using JetBrains.Annotations;
 using Runtime.Game.Interfaces;
-using Runtime.Game.Timers;
 using Runtime.UI.Interfaces;
 using Runtime.UI.Screen;
 
@@ -12,7 +10,6 @@ namespace Runtime.Machine.States
     {
         private readonly IGameController _gameController;
         private readonly ICanvas _canvas;
-
 
         public GameState(ICanvas canvas, IGameController gameController)
         {
