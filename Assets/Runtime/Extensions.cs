@@ -1,6 +1,7 @@
 ﻿using System;
 using Mediapipe.Tasks.Components.Containers;
 using Runtime.Types;
+using SensorPack.KinectCore.Runtime;
 using UnityEngine;
 
 namespace Runtime
@@ -57,5 +58,10 @@ namespace Runtime
         public static float GetNormalizedCoordinate(this PlayerBody playerBody, JointType jointType,
             Coordinates coordinate) =>
             playerBody.GetNormalized(jointType).position[(int) coordinate];
+
+
+        public static float GetNormalizedCoordinate(this KinectInterop.BodyData bodyData, JointType jointType,
+            Coordinates coordinate) =>
+            bodyData.joint[(int) jointType].kinectPos[(int) coordinate];
     }
 }

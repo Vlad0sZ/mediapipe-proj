@@ -1,6 +1,7 @@
 ﻿using JetBrains.Annotations;
 using Runtime.Machine;
 using Runtime.Machine.States;
+using SensorPack.Addons.Mediapipe.Solutions.Runners.PoseRunners;
 using VContainer.Unity;
 
 namespace Runtime.Scope
@@ -9,11 +10,18 @@ namespace Runtime.Scope
     public class GameEntryPoint : IStartable
     {
         private readonly IStateMachine _stateMachine;
+        private readonly PoseSolution _poseSolution;
 
-        public GameEntryPoint(IStateMachine stateMachine) =>
+        public GameEntryPoint(IStateMachine stateMachine, PoseSolution poseSolution)
+        {
+            _poseSolution = poseSolution;
             _stateMachine = stateMachine;
+        }
 
-        public void Start() =>
+        public void Start()
+        {
+            _poseSolution.Config.NumPoses = 1;
             _stateMachine.ChangeState<MainMenuState>();
+        }
     }
 }

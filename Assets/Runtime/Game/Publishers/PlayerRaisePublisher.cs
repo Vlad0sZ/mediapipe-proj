@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Mediapipe.Tasks.Vision.PoseLandmarker;
 using R3;
 using Runtime.Game.Interfaces;
 using Runtime.Game.Publishers;
 using Runtime.Types;
-using UnityEngine;
-using VContainer;
+using SensorPack.KinectCore.Runtime;
 using VContainer.Unity;
 
 namespace Runtime.Game
@@ -25,21 +22,21 @@ namespace Runtime.Game
         public Observable<PlayerPose> PlayerEvent => _subject;
 
         public void Start() =>
-            _posePublisher.Bodies
+            _posePublisher.ActivePlayer
                 .Subscribe(OnPoseDetected)
                 .AddTo(_subscription);
 
-        private void OnPoseDetected(List<PlayerBody> playerBodies)
+        private void OnPoseDetected(KinectInterop.BodyData body)
         {
-            var firstPlayer = playerBodies.FirstOrDefault(x => x != null);
-            var handGesture = GetHandGesture(firstPlayer);
-            _subject.OnNext(new PlayerPose(firstPlayer != null, handGesture));
+            var handGesture = GetHandGesture(body);
+            _subject.OnNext(new PlayerPose(body.bIsTracked > 0, handGesture));
         }
 
-        private static HandRaiseType GetHandGesture(PlayerBody firstPlayer)
+        private static HandRaiseType GetHandGesture(KinectInterop.BodyData firstPlayer)
         {
-            if (firstPlayer == null)
+            if (firstPlayer.bIsTracked == 0)
                 return HandRaiseType.None;
+
 
             var headPos = firstPlayer.GetNormalizedCoordinate(JointType.Nose, Coordinates.Y);
             var mouthPos = firstPlayer.GetNormalizedCoordinate(JointType.LeftMouth, Coordinates.Y);

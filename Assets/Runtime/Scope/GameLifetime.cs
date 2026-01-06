@@ -1,5 +1,4 @@
-﻿using Mediapipe.Unity.Sample;
-using Runtime.Game;
+﻿using Runtime.Game;
 using Runtime.Game.Embient;
 using Runtime.Game.Factories;
 using Runtime.Game.Interfaces;
@@ -12,6 +11,8 @@ using Runtime.Machine;
 using Runtime.Machine.States;
 using Runtime.UI;
 using Runtime.UI.Interfaces;
+using SensorPack.Addons.Mediapipe.Solutions.Runners.PoseRunners;
+using SensorPack.KinectCore.Runtime;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -20,7 +21,10 @@ namespace Runtime.Scope
 {
     public class GameLifetime : LifetimeScope
     {
-        [SerializeField] private BaseRunner publisherPrefab;
+        // TODO
+        // [SerializeField] private BaseRunner publisherPrefab;
+        [SerializeField] private PoseSolution poseSolutionPrefab;
+        [SerializeField] private KinectManager kinectManagerPrefab;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -43,9 +47,8 @@ namespace Runtime.Scope
             builder.RegisterEntryPoint<PosePublisher>(Lifetime.Scoped).As<IPosePublisher>();
             builder.RegisterEntryPoint<PlayerRaisePublisher>(Lifetime.Scoped).As<IPlayerRaisePublisher>();
 
-
-            builder.RegisterComponentInNewPrefab(typeof(IPoseLandmarkPublisher), publisherPrefab, Lifetime.Scoped);
-
+            builder.RegisterComponentInNewPrefab(typeof(PoseSolution), poseSolutionPrefab, Lifetime.Singleton);
+            builder.RegisterComponentInNewPrefab(typeof(KinectManager), kinectManagerPrefab, Lifetime.Singleton);
             builder.RegisterComponentInHierarchy<GameController>().As<IGameController>().As<ILevelPublisher>();
 
             builder.RegisterComponentInHierarchy<ObjectSpawner>().As<IObjectSpawner>();

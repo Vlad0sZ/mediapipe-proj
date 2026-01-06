@@ -1,0 +1,17 @@
+{
+    "name": "SensorPack.Addons.Mediapipe",
+    "rootNamespace": "",
+    "references": [
+        "GUID:04c4d86a70aa56c55a78c61f1ab1a56d",
+        "GUID:ed4dd9b32ff7e3d4188bda2279d2c99c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

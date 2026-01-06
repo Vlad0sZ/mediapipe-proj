@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mediapipe.Unity.Sample;
 using Runtime.Infrastructure.Video;
 using TMPro;
 using UnityEngine;
@@ -39,16 +38,17 @@ namespace Runtime.UI
             dropdown.ClearOptions();
             dropdown.AddOptions(devices.ToList());
 
-            if (ImageSourceProvider.CurrentSourceType == ImageSourceType.WebCamera)
-            {
-                var currentImageSource = ImageSourceProvider.ImageSource;
-                var index = dropdown.options.FindIndex(x => x.text.Equals(currentImageSource.sourceName));
-                dropdown.SetValueWithoutNotify(index >= 0 ? index : 0);
-            }
-            else
-            {
-                dropdown.SetValueWithoutNotify(0);
-            }
+            // TODO
+            // if (ImageSourceProvider.CurrentSourceType == ImageSourceType.WebCamera)
+            // {
+            //     var currentImageSource = ImageSourceProvider.ImageSource;
+            //     var index = dropdown.options.FindIndex(x => x.text.Equals(currentImageSource.sourceName));
+            //     dropdown.SetValueWithoutNotify(index >= 0 ? index : 0);
+            // }
+            // else
+            // {
+            //     dropdown.SetValueWithoutNotify(0);
+            // }
         }
 
         private void OnCameraSelected(int cameraIndex) =>
