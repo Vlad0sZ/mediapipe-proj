@@ -1,3 +1,5 @@
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Runtime.Infrastructure.Scenes;
 using Runtime.UI.Interfaces;
@@ -6,25 +8,20 @@ using Runtime.UI.Screen;
 namespace Runtime.Machine.States
 {
     [UsedImplicitly]
-    public sealed class LoadingGameState : IState
+    public sealed class LoadingGameState : UIState
     {
         private readonly ISceneLoader _sceneLoader;
-        private readonly ICanvas _canvas;
 
-        public LoadingGameState(ISceneLoader sceneLoader, ICanvas canvas)
-        {
+        public LoadingGameState(ISceneLoader sceneLoader, ICanvas canvas) : base(canvas, ScreenNames.Loading) =>
             _sceneLoader = sceneLoader;
-            _canvas = canvas;
-        }
 
-        public void Activate()
+        public override async UniTask ActivateAsync(CancellationToken ct)
         {
-            _canvas.GetScreen(ScreenNames.Loading)?.Show();
+            await base.ActivateAsync(ct);
             _sceneLoader.ChangeScene("Game Scene");
         }
 
-        public void Deactivate()
-        {
-        }
+        public override UniTask DeactivateAsync(CancellationToken ct) =>
+            UniTask.CompletedTask;
     }
 }

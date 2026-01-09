@@ -1,6 +1,6 @@
 ﻿using JetBrains.Annotations;
 using R3;
-using Runtime.Game.ScriptableData;
+using Runtime.Game.Interfaces;
 using UnityEngine;
 
 namespace Runtime.Game.Timers
@@ -8,22 +8,25 @@ namespace Runtime.Game.Timers
     [UsedImplicitly]
     public sealed class Timer : ITimer
     {
+        private readonly IGameModeSettings _gameModeSettings;
         private readonly Subject<ElapsedTime> _progress = new();
         public Observable<ElapsedTime> Event => _progress;
+
+        public Timer(IGameModeSettings settings) =>
+            _gameModeSettings = settings;
 
         private float _totalTimes;
         private float _time;
         private bool _isRunning;
         private bool _isPaused;
 
-        public void Setup(GameSettings.LevelSettings payload)
-        {
-            _totalTimes = payload.levelTime;
-            _time = 0f;
-        }
-
         public void StartTimer()
         {
+            _totalTimes = _gameModeSettings.GetLevelTime();
+
+            if (_totalTimes <= 0)
+                return;
+
             _isPaused = false;
             _isRunning = true;
             _time = 0f;

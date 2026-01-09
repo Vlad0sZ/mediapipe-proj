@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using R3;
 using Runtime.Game.Interfaces;
+using Runtime.Game.Publishers;
 using Runtime.Game.ScriptableData;
 using UnityEngine;
 using UnityEngine.Pool;
+using VContainer;
 using Random = UnityEngine.Random;
 
 namespace Runtime.Game
@@ -18,17 +20,21 @@ namespace Runtime.Game
         }
 
         [SerializeField] private GameObject prefab;
-
         [SerializeField] private Rect spawnRect;
 
         private readonly Subject<SpawnEvent> _spawnSubject = new Subject<SpawnEvent>();
         private readonly Subject<bool> _spawnProcessSubject = new Subject<bool>();
         private readonly List<GameObject> _activeObjects = new List<GameObject>(128);
 
+        private ILevelPublisher _levelPublisher;
         private IObjectPool<GameObject> _objectPool;
         private float _spawnTime;
         private bool _isRunning;
         private GameSettings.SpawnSettings _spawnSettings;
+
+        [Inject]
+        public void Construct(ILevelPublisher levelPublisher) =>
+            _levelPublisher = levelPublisher;
 
         private bool Running
         {
@@ -37,7 +43,7 @@ namespace Runtime.Game
             {
                 if (_isRunning == value)
                     return;
-                
+
                 _isRunning = value;
                 _spawnProcessSubject.OnNext(value);
             }
@@ -49,10 +55,10 @@ namespace Runtime.Game
         public void ReleaseObject(GameObject releaseObject) =>
             _objectPool.Release(releaseObject);
 
-        public void Setup(GameSettings.SpawnSettings payload) =>
-            _spawnSettings = payload;
+        public void Setup(GameSettings.Settings payload) =>
+            _spawnSettings = payload.SpawnSettings;
 
-        public void StartSpawn() => 
+        public void StartSpawn() =>
             Running = true;
 
         public void StopSpawn()
@@ -71,6 +77,10 @@ namespace Runtime.Game
                 collectionCheck: true,
                 defaultCapacity: 10
             );
+
+            _levelPublisher.SettingsChanged
+                .Subscribe(Setup)
+                .AddTo(this);
         }
 
         private void Update()

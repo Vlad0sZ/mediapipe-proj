@@ -1,4 +1,6 @@
-﻿using DG.Tweening;
+﻿using System.Collections.Generic;
+using System.Linq;
+using DG.Tweening;
 using UnityEngine;
 
 namespace Runtime.UI
@@ -7,27 +9,34 @@ namespace Runtime.UI
     {
         [SerializeField] private CanvasGroup selfCanvasGroup;
         [SerializeField] private CanvasGroup[] childrenCanvasGroup;
-        [SerializeField] private float duration = 0.33f;
-        [SerializeField] private float delay = 0.12f;
+        [SerializeField] private float showDuration = 0.33f;
+        [SerializeField] private float hideDuration = 0.33f;
+        [SerializeField] private float showDelay = 0.12f;
+        [SerializeField] private float hideDelay = 0.12f;
         private Tween _tween;
 
-        public override void Show(bool instantly = false) =>
-            ChangeVisible(true, instantly);
+        public override void Show(bool instantly = false, System.Action callback = null) =>
+            ChangeVisible(true, instantly, callback);
 
-        public override void Hide(bool instantly = false) =>
-            ChangeVisible(false, instantly);
+        public override void Hide(bool instantly = false, System.Action callback = null) =>
+            ChangeVisible(false, instantly, callback);
 
-        private void ChangeVisible(bool isVisible, bool instantly)
+        private void ChangeVisible(bool isVisible, bool instantly, System.Action callback = null)
         {
             _tween?.Kill();
 
+            RaiseBecameVisibilityEvent(isVisible);
+
             if (instantly)
             {
-                ChangeAllCanvas(isVisible);
+                ChangeAllCanvas(isVisible, isVisible);
+                RaiseVisibilityEvent(isVisible);
+                callback?.Invoke();
             }
             else
             {
                 _tween = GetTween(isVisible);
+                _tween.onComplete += () => callback?.Invoke();
                 _tween.Play();
             }
         }
@@ -37,38 +46,42 @@ namespace Runtime.UI
             var targetAlpha = isVisible ? 1f : 0f;
 
             var sequence = DOTween.Sequence();
-            sequence.Append(selfCanvasGroup.DOFade(targetAlpha, duration));
-            sequence.AppendInterval(duration);
-            foreach (var child in childrenCanvasGroup)
+            var allCanvases = new List<CanvasGroup>() {selfCanvasGroup}.Union(childrenCanvasGroup);
+            if (!isVisible)
+                allCanvases = allCanvases.Reverse();
+
+
+            var duration = isVisible ? showDuration : hideDuration;
+            var delay = isVisible ? showDelay : hideDelay;
+
+            foreach (var canvasGroup in allCanvases)
             {
-                sequence.Append(child.DOFade(targetAlpha, duration));
+                sequence.Append(canvasGroup.DOFade(targetAlpha, duration));
                 sequence.AppendInterval(delay);
             }
 
+            if (!isVisible)
+                sequence.OnStart(() => ChangeAllCanvas(true, false));
 
-            if (isVisible)
-                sequence.OnComplete(() => ChangeAllCanvas(true));
-            else
-                sequence.OnStart(() => ChangeAllCanvas(false));
-
+            sequence.onComplete += () => ChangeAllCanvas(isVisible, isVisible);
+            sequence.onComplete += () => RaiseVisibilityEvent(isVisible);
             return sequence;
         }
 
 
-        private void ChangeAllCanvas(bool isVisible)
+        private void ChangeAllCanvas(bool isVisible, bool activated)
         {
-            ChangeVisible(selfCanvasGroup, isVisible);
-            foreach (var canvasGroup in childrenCanvasGroup)
-                ChangeVisible(canvasGroup, isVisible);
+            ChangeVisible(selfCanvasGroup, isVisible, activated);
 
-            RaiseVisibilityEvent(isVisible);
+            foreach (var canvasGroup in childrenCanvasGroup)
+                ChangeVisible(canvasGroup, isVisible, activated);
         }
 
-        private static void ChangeVisible(CanvasGroup canvasGroup, bool isVisible)
+        private static void ChangeVisible(CanvasGroup canvasGroup, bool isVisible, bool activated)
         {
             canvasGroup.alpha = isVisible ? 1f : 0f;
-            canvasGroup.interactable = isVisible;
-            canvasGroup.blocksRaycasts = isVisible;
+            canvasGroup.interactable = activated;
+            canvasGroup.blocksRaycasts = activated;
         }
     }
 }

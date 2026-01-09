@@ -2,6 +2,7 @@
 {
     public interface IStateMachine
     {
-        public void ChangeState<T>() where T : IState;
+        public void ChangeState<T>() where T : IAsyncState;
+        public void ChangeState(System.Type type);
     }
 }

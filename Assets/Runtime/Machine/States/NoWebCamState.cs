@@ -5,22 +5,10 @@ using Runtime.UI.Screen;
 namespace Runtime.Machine.States
 {
     [UsedImplicitly]
-    public sealed class NoWebCamState : IState
+    public sealed class NoWebCamState : UIState
     {
-        private readonly ICanvas _canvas;
-
-        public NoWebCamState(ICanvas canvas) => _canvas = canvas;
-
-        public void Activate()
+        public NoWebCamState(ICanvas canvas) : base(canvas, ScreenNames.NoCamera)
         {
-            var screen = _canvas.GetScreen(ScreenNames.NoCamera);
-            screen?.Show();
-        }
-
-        public void Deactivate()
-        {
-            var screen = _canvas.GetScreen(ScreenNames.NoCamera);
-            screen?.Hide();
         }
     }
 }

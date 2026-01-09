@@ -2,7 +2,7 @@
 
 namespace Runtime.Game.Interfaces
 {
-    public interface IFoodFactory : ISetupPayload<FoodObjects.FoodGroup>
+    public interface IFoodFactory 
     {
         
     }

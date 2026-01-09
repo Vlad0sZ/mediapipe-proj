@@ -2,8 +2,6 @@
 {
     public interface IGameController
     {
-        void SetupLevel();
-
         void StartLevel();
 
         void Pause();

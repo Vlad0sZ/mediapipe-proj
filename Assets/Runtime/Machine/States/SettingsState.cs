@@ -1,27 +1,32 @@
-﻿using JetBrains.Annotations;
+﻿using System.Threading;
+using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
+using Runtime.Game.Embient;
 using Runtime.UI.Interfaces;
 using Runtime.UI.Screen;
 
 namespace Runtime.Machine.States
 {
     [UsedImplicitly]
-    public class SettingsState : IState
+    public sealed class SettingsState : UIState
     {
-        private readonly ICanvas _canvas;
+        private readonly ICameraController _cameraController;
 
-        public SettingsState(ICanvas canvas) =>
-            _canvas = canvas;
-
-        public void Activate()
+        public SettingsState(ICanvas canvas, ICameraController cameraController) : base(canvas, ScreenNames.Settings)
         {
-            var screen = _canvas.GetScreen(ScreenNames.Settings);
-            screen?.Show();
+            _cameraController = cameraController;
         }
 
-        public void Deactivate()
+        public override UniTask ActivateAsync(CancellationToken ct)
         {
-            var screen = _canvas.GetScreen(ScreenNames.Settings);
-            screen?.Hide();
+            _cameraController.LiveLevelCamera(1);
+            return base.ActivateAsync(ct);
+        }
+
+        public override UniTask DeactivateAsync(CancellationToken ct)
+        {
+            _cameraController.LiveMainCamera();
+            return base.DeactivateAsync(ct);
         }
     }
 }

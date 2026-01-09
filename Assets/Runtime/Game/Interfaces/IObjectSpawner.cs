@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Runtime.Game.Interfaces
 {
-    public interface IObjectSpawner :  ISetupPayload<GameSettings.SpawnSettings>
+    public interface IObjectSpawner 
     {
         Observable<ObjectSpawner.SpawnEvent> OnObjectSpawned { get; }
         

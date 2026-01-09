@@ -15,8 +15,21 @@ MonoBehaviour:
   spawnSettings:
   - maxObjectPerSpawn: 3
     spawnDelay: 1.5
+  - maxObjectPerSpawn: 3
+    spawnDelay: 1.5
+  - maxObjectPerSpawn: 3
+    spawnDelay: 1.5
   levelSettings:
-  - levelTime: 60
+  - minLevelTime: 0
+    maxLevelTime: 0
+  - minLevelTime: 15
+    maxLevelTime: 180
+  - minLevelTime: 0
+    maxLevelTime: 0
   objectsSettings:
+  - minMaxFallSpeed: {x: 0.5, y: 1.5}
+    minMaxRotationSpeed: {x: 60, y: 80}
+  - minMaxFallSpeed: {x: 0.5, y: 1.5}
+    minMaxRotationSpeed: {x: 60, y: 80}
   - minMaxFallSpeed: {x: 0.5, y: 1.5}
     minMaxRotationSpeed: {x: 60, y: 80}

@@ -1,24 +1,22 @@
 ﻿using System.Collections;
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
 using Runtime.Infrastructure.Interfaces;
 using UnityEngine;
 
 namespace Runtime.Machine.States
 {
-    public class ExitGameState : IState
+    [UsedImplicitly]
+    public sealed class ExitGameState : IAsyncState
     {
-        private readonly ICoroutineScope _scope;
-        public ExitGameState(ICoroutineScope scope) => _scope = scope;
-
-        public void Activate() => _scope.StartCoroutine(ExitAfter());
-
-        private static IEnumerator ExitAfter()
+        public async UniTask ActivateAsync(CancellationToken ct)
         {
-            yield return new WaitForSeconds(0.24f);
+            await UniTask.Delay(300, cancellationToken: ct);
             Application.Quit();
         }
 
-        public void Deactivate()
-        {
-        }
+        public UniTask DeactivateAsync(CancellationToken ct) =>
+            UniTask.CompletedTask;
     }
 }

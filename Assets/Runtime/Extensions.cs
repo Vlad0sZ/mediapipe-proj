@@ -45,22 +45,8 @@ namespace Runtime
             return UnityEngine.Random.Range(min, max);
         }
 
-        public static PlayerBody.VisibleJoint GetWorld(this PlayerBody playerBody, JointType jointType) =>
-            playerBody.GetWorld((int) jointType);
 
-        public static PlayerBody.VisibleJoint GetNormalized(this PlayerBody playerBody, JointType jointType) =>
-            playerBody.GetNormalized((int) jointType);
-
-        public static float GetWorldCoordinate(this PlayerBody playerBody, JointType jointType,
-            Coordinates coordinate) =>
-            playerBody.GetWorld(jointType).position[(int) coordinate];
-
-        public static float GetNormalizedCoordinate(this PlayerBody playerBody, JointType jointType,
-            Coordinates coordinate) =>
-            playerBody.GetNormalized(jointType).position[(int) coordinate];
-
-
-        public static float GetNormalizedCoordinate(this KinectInterop.BodyData bodyData, JointType jointType,
+        public static float GetNormalizedCoordinate(this KinectInterop.BodyData bodyData, KinectInterop.JointType jointType,
             Coordinates coordinate) =>
             bodyData.joint[(int) jointType].kinectPos[(int) coordinate];
     }

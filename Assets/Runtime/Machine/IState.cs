@@ -1,10 +1,13 @@
-﻿namespace Runtime.Machine
-{
-    public interface IState
-    {
-        void Activate();
+﻿using System.Threading;
+using Cysharp.Threading.Tasks;
 
-        void Deactivate();
+namespace Runtime.Machine
+{
+    public interface IAsyncState
+    {
+        UniTask ActivateAsync(CancellationToken ct);
+
+        UniTask DeactivateAsync(CancellationToken ct);
     }
 
 

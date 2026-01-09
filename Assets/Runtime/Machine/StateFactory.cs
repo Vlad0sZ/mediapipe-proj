@@ -1,15 +1,24 @@
-﻿using VContainer;
+﻿using System;
+using JetBrains.Annotations;
+using VContainer;
 
 namespace Runtime.Machine
 {
-    public class StateFactory : IStateFactory
+    [UsedImplicitly]
+    public sealed class StateFactory : IStateFactory
     {
         private readonly IObjectResolver _objectResolver;
 
-        public StateFactory(IObjectResolver objectResolver) => 
+        public StateFactory(IObjectResolver objectResolver) =>
             _objectResolver = objectResolver;
 
-        public TState CreateState<TState>() where TState : IState => 
-            _objectResolver.Resolve<TState>();
+        public IAsyncState CreateState(Type stateType)
+        {
+            var state = _objectResolver.Resolve(stateType);
+            if (state is IAsyncState st)
+                return st;
+
+            return default;
+        }
     }
 }

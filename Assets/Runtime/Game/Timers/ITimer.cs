@@ -4,7 +4,7 @@ using VContainer.Unity;
 
 namespace Runtime.Game.Timers
 {
-    public interface ITimer : ITickable, ITimerPublisher, ISetupPayload<GameSettings.LevelSettings>
+    public interface ITimer : ITickable, ITimerPublisher
     {
         void StartTimer();
         void StopTimer();

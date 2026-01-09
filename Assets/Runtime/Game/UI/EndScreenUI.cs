@@ -5,24 +5,18 @@ using VContainer;
 
 namespace Runtime.Game.UI
 {
-    public class EndScreenUI : MonoBehaviour
+    public class EndScreenUI : AbstractGameScreenUI
     {
         [SerializeField] private TMP_Text textComponent;
 
         private IScorePublisher _scorePublisher;
 
         [Inject]
-        public void Construct(IScorePublisher scorePublisher)
-        {
+        public void Construct(IScorePublisher scorePublisher) =>
             _scorePublisher = scorePublisher;
-        }
 
-        public void OnScreenChanged(bool isVisible)
-        {
-            UnityEngine.Debug.Log($"change {isVisible} to gameover");
-            if (isVisible)
-                UpdateText();
-        }
+        protected override void OnScreenShowing() =>
+            UpdateText();
 
         private void UpdateText()
         {

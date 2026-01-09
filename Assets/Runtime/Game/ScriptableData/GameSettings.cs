@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace Runtime.Game.ScriptableData
@@ -9,7 +10,8 @@ namespace Runtime.Game.ScriptableData
         public record Settings(
             LevelSettings LevelSettings,
             SpawnSettings SpawnSettings,
-            ObjectsSettings ObjectsSettings);
+            ObjectsSettings ObjectsSettings
+        );
 
         [System.Serializable]
         public struct SpawnSettings
@@ -21,7 +23,10 @@ namespace Runtime.Game.ScriptableData
         [System.Serializable]
         public struct LevelSettings
         {
-            public float levelTime;
+            public float minLevelTime;
+            public float maxLevelTime;
+
+            public bool Endless() => minLevelTime == 0 && maxLevelTime == 0;
         }
 
         [System.Serializable]
@@ -30,7 +35,7 @@ namespace Runtime.Game.ScriptableData
             public Vector2 minMaxFallSpeed;
             public Vector2 minMaxRotationSpeed;
         }
-
+        
         [FormerlySerializedAs("settings")] [SerializeField]
         private SpawnSettings[] spawnSettings;
 
@@ -41,8 +46,8 @@ namespace Runtime.Game.ScriptableData
         public Settings GetSettings(int byLevel)
         {
             var spawn = spawnSettings[Mathf.Min(byLevel, spawnSettings.Length)];
-            var level = levelSettings[Mathf.Min(byLevel, levelSettings.Length)];
             var objectsSetting = objectsSettings[Mathf.Min(byLevel, objectsSettings.Length)];
+            var level = levelSettings.ElementAtOrDefault(byLevel);
 
             return new Settings(level, spawn, objectsSetting);
         }

@@ -1,27 +1,15 @@
-﻿using JetBrains.Annotations;
+﻿using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Runtime.UI.Interfaces;
 using Runtime.UI.Screen;
 
 namespace Runtime.Machine.States
 {
     [UsedImplicitly]
-    public sealed class MainMenuState : IState
+    public sealed class MainMenuState : UIState
     {
-        private readonly ICanvas _canvas;
-
-        public MainMenuState(ICanvas canvas) =>
-            _canvas = canvas;
-
-        public void Activate()
+        public MainMenuState(ICanvas canvas) : base(canvas, ScreenNames.MainMenu)
         {
-            var screen = _canvas.GetScreen(ScreenNames.MainMenu);
-            screen?.Show();
-        }
-
-        public void Deactivate()
-        {
-            var screen = _canvas.GetScreen(ScreenNames.MainMenu);
-            screen?.Hide();
         }
     }
 }

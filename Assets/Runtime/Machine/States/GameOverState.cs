@@ -1,16 +1,14 @@
-﻿using Runtime.UI.Interfaces;
+﻿using JetBrains.Annotations;
+using Runtime.UI.Interfaces;
 using Runtime.UI.Screen;
 
 namespace Runtime.Machine.States
 {
-    public sealed class GameOverState : IState
+    [UsedImplicitly]
+    public sealed class GameOverState : UIState
     {
-        private readonly ICanvas _canvas;
-
-        public GameOverState(ICanvas canvas) => _canvas = canvas;
-
-        public void Activate() => _canvas.GetScreen(ScreenNames.GameOver)?.Show();
-
-        public void Deactivate() => _canvas.GetScreen(ScreenNames.GameOver)?.Hide();
+        public GameOverState(ICanvas canvas) : base(canvas, ScreenNames.GameOver)
+        {
+        }
     }
 }

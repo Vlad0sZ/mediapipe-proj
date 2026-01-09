@@ -1,11 +1,12 @@
-﻿using JetBrains.Annotations;
+﻿using System.Threading;
+using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
 using Runtime.Infrastructure.Video;
-using Runtime.UI.Interfaces;
 
 namespace Runtime.Machine.States
 {
     [UsedImplicitly]
-    public sealed class BootstrapState : IState
+    public sealed class BootstrapState : IAsyncState
     {
         private readonly IStateMachine _stateMachine;
         private readonly IWebCamInitializer _webCamInitializer;
@@ -16,17 +17,17 @@ namespace Runtime.Machine.States
             _webCamInitializer = webCamInitializer;
         }
 
-        public void Activate()
+        public UniTask ActivateAsync(CancellationToken ct)
         {
             var isWebCamInitialized = _webCamInitializer.IsWebcamInitialized();
             if (isWebCamInitialized == false)
                 _stateMachine.ChangeState<NoWebCamState>();
 
             _stateMachine.ChangeState<LoadingGameState>();
+            return UniTask.CompletedTask;
         }
 
-        public void Deactivate()
-        {
-        }
+        public UniTask DeactivateAsync(CancellationToken ct) =>
+            UniTask.CompletedTask;
     }
 }
