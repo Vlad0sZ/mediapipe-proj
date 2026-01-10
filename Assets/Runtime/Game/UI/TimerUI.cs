@@ -16,10 +16,8 @@ namespace Runtime.Game.UI
         [Inject]
         public void Construct(ITimerPublisher timer) => _timer = timer;
 
-
         private void OnEnable() => _actionDisposable = _timer.Event.Subscribe(OnTimerEvent);
         private void OnDisable() => _actionDisposable?.Dispose();
-
 
         private void OnTimerEvent(ElapsedTime elapsedTime)
         {

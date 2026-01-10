@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 
 namespace Runtime.Game
 {
-    public sealed class FoodFactory : ObjectSpawnerOwner, IFoodFactory, IGameModePayload
+    public sealed class FoodFactory : ObjectSpawnerOwner, IFoodFactory, IFoodPayload
     {
         private readonly Dictionary<GameObject, GameObject> _parentWithChild = new();
         private IDisposable _disposable;
@@ -37,11 +37,7 @@ namespace Runtime.Game
         private void OnDisable() =>
             _disposable?.Dispose();
 
-        public void Setup(IGameModeSettings payload)
-        {
-        }
-
-        public void SetupFood(FoodObjects.FoodGroup foodGroup)
+        public void Setup(FoodObjects.FoodGroup foodGroup)
         {
             var rights = foodGroup.Rights;
             var wrong = foodGroup.Wrong;

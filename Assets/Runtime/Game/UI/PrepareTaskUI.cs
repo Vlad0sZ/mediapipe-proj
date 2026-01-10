@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Runtime.Game.UI
 {
-    public class PrepareTaskUI : MonoBehaviour, IGameModePayload
+    public class PrepareTaskUI : MonoBehaviour, IGameModePayload, IFoodPayload
     {
         [SerializeField] private TMP_Text taskTextComponent;
 
@@ -19,14 +19,13 @@ namespace Runtime.Game.UI
         public void Setup(IGameModeSettings payload) =>
             _currentMode = payload.CurrentMode;
 
-        public void SetupFood(FoodObjects.FoodGroup foodGroup)
+        public void Setup(FoodObjects.FoodGroup payload)
         {
-            var label = foodGroup.label;
-            var rights = foodGroup.Rights;
+            var label = payload.label;
+            var rights = payload.Rights;
             var taskText = GameModeToTask(label, rights);
             taskTextComponent.text = taskText;
         }
-
 
         private string GameModeToTask(string label, IEnumerable<FoodWithIcon> rights)
         {
@@ -48,7 +47,8 @@ namespace Runtime.Game.UI
             var sb = new StringBuilder();
             sb.Append("<b> Готовка на выживание! </b>")
                 .AppendLine()
-                .AppendLine("В этом режиме можно ставить рекорды! Время неограничено, но игра закончена, если испортишь ужин!");
+                .AppendLine(
+                    "В этом режиме можно ставить рекорды! Время неограничено, но игра закончена, если пропустишь слишком много ингридиентов!");
             sb.AppendLine()
                 .Append("Лови только те предметы, которые входят в состав ")
                 .Append(label)

@@ -70,8 +70,8 @@ namespace Runtime.Scope
             builder.RegisterComponentInHierarchy<PlayerFactory>().As<IPlayerFactory>();
             builder.RegisterComponentInHierarchy<CameraController>().As<ICameraController>();
             builder.RegisterComponentInHierarchy<ObjectCollectSetup>().As<IScorePublisher>();
-            builder.RegisterComponentInHierarchy<FoodFactory>().As<IFoodFactory>().As<IGameModePayload>();
-            builder.RegisterComponentInHierarchy<PrepareTaskUI>().As<IGameModePayload>();
+            builder.RegisterComponentInHierarchy<FoodFactory>().As<IFoodFactory>().As<IFoodPayload>();
+            builder.RegisterComponentInHierarchy<PrepareTaskUI>().As<IGameModePayload>().As<IFoodPayload>();
 
             builder.RegisterComponentOnNewGameObject<CoroutineScope>(Lifetime.Scoped).As<ICoroutineScope>();
 

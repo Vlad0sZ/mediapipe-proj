@@ -15,15 +15,19 @@ namespace Runtime.Game.Controllers
 
         private GameSettings.Settings _settings;
         private ILevelPublisherSetup _levelPublisher;
-        private readonly List<IGameModePayload> _foodPayloads = new List<IGameModePayload>(16);
+        private readonly List<IGameModePayload> _modePayloads = new List<IGameModePayload>(16);
+        private readonly List<IFoodPayload> _foodPayloads = new List<IFoodPayload>(16);
 
         private float _levelTime;
         private GameMode _currentMode;
 
         [Inject]
-        public void Construct(IEnumerable<IGameModePayload> foodPayloads, ILevelPublisherSetup levelPublisher)
+        public void Construct(IEnumerable<IGameModePayload> modsPayloads,
+            IEnumerable<IFoodPayload> foodPayloads,
+            ILevelPublisherSetup levelPublisher)
         {
             _levelPublisher = levelPublisher;
+            _modePayloads.AddRange(modsPayloads);
             _foodPayloads.AddRange(foodPayloads);
         }
 
@@ -39,7 +43,7 @@ namespace Runtime.Game.Controllers
             if (settings.Endless())
                 return 0;
 
-            return Mathf.Clamp(_levelTime, settings.minLevelTime, settings.maxLevelTime);
+            return Mathf.Lerp(settings.minLevelTime, settings.maxLevelTime, _levelTime);
         }
 
         public GameSettings.LevelSettings GetLevelTimeSettings()
@@ -66,11 +70,11 @@ namespace Runtime.Game.Controllers
 
             var objectsData = foodObjects.GetNextGroup();
 
-            foreach (var payload in _foodPayloads)
-            {
+            foreach (var payload in _modePayloads)
                 payload.Setup(this);
-                payload.SetupFood(objectsData);
-            }
+
+            foreach (var payload in _foodPayloads)
+                payload.Setup(objectsData);
         }
 
         private GameSettings.Settings GenerateSettingsByMode(GameMode mode) =>

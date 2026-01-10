@@ -37,7 +37,6 @@ namespace Runtime.Game.Publishers
         {
             var isHorizontalFlipped = _kinectManager.GetColorImageScale().x < 0;
             var handGesture = GetHandGesture(body, isHorizontalFlipped);
-            UnityEngine.Debug.Log($"next pose = {body.bIsTracked} + {handGesture}");
             _subject.OnNext(new PlayerPose(body.bIsTracked > 0, handGesture));
         }
 

@@ -2,9 +2,7 @@
 
 namespace Runtime.Game.Interfaces
 {
-    public interface IGameModePayload : ISetupPayload<IGameModeSettings>
+    public interface IFoodPayload : ISetupPayload<FoodObjects.FoodGroup>
     {
-        void SetupFood(FoodObjects.FoodGroup foodGroup);
-
     }
 }

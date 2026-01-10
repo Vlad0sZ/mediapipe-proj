@@ -13,7 +13,6 @@ namespace Runtime.Game.Embient
 
         private void ActivateCamera(int index)
         {
-            UnityEngine.Debug.Log($"set camera at index {index} is active");
             if (cameras.Length == 0)
                 return;
 
