@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using R3;
 using Runtime.Game.Interfaces;
-using Runtime.Game.Publishers;
 using Runtime.Game.ScriptableData;
 using UnityEngine;
 using UnityEngine.Pool;
-using VContainer;
 using Random = UnityEngine.Random;
 
 namespace Runtime.Game
@@ -26,15 +24,10 @@ namespace Runtime.Game
         private readonly Subject<bool> _spawnProcessSubject = new Subject<bool>();
         private readonly List<GameObject> _activeObjects = new List<GameObject>(128);
 
-        private ILevelPublisher _levelPublisher;
         private IObjectPool<GameObject> _objectPool;
         private float _spawnTime;
         private bool _isRunning;
         private GameSettings.SpawnSettings _spawnSettings;
-
-        [Inject]
-        public void Construct(ILevelPublisher levelPublisher) =>
-            _levelPublisher = levelPublisher;
 
         private bool Running
         {
@@ -52,11 +45,11 @@ namespace Runtime.Game
         public Observable<SpawnEvent> OnObjectSpawned => _spawnSubject;
         public Observable<bool> OnSpawnProcess => _spawnProcessSubject;
 
+        public void Configure(GameSettings.SpawnSettings spawnSettings) =>
+            _spawnSettings = spawnSettings;
+
         public void ReleaseObject(GameObject releaseObject) =>
             _objectPool.Release(releaseObject);
-
-        public void Setup(GameSettings.Settings payload) =>
-            _spawnSettings = payload.SpawnSettings;
 
         public void StartSpawn() =>
             Running = true;
@@ -65,6 +58,27 @@ namespace Runtime.Game
         {
             Running = false;
             ClearObjects();
+        }
+
+        public void Pause()
+        {
+            Running = false;
+            foreach (var activeObject in _activeObjects)
+            {
+                if (activeObject.TryGetComponent<IFallComponentSetup>(out var fall))
+                    fall.StopMove();
+            }
+        }
+
+        public void Resume()
+        {
+            Running = true;
+            _spawnTime = 0;
+            foreach (var activeObject in _activeObjects)
+            {
+                if (activeObject.TryGetComponent<IFallComponentSetup>(out var fall))
+                    fall.ContinueMove();
+            }
         }
 
         private void Awake()
@@ -77,10 +91,6 @@ namespace Runtime.Game
                 collectionCheck: true,
                 defaultCapacity: 10
             );
-
-            _levelPublisher.SettingsChanged
-                .Subscribe(Setup)
-                .AddTo(this);
         }
 
         private void Update()
@@ -116,10 +126,19 @@ namespace Runtime.Game
 
         private void SpawnObject(int maxObjects)
         {
+            if (maxObjects == 0)
+            {
+                UnityEngine.Debug.LogWarning("empty object to spawn");
+                return;
+            }
+
             var max = Mathf.Max(1, maxObjects);
             var countToSpawn = Random.Range(1, max);
             for (int i = 1; i <= countToSpawn; i++)
+            {
+                UnityEngine.Debug.LogWarning($"Spawn time {i}");
                 Spawn();
+            }
         }
 
         private void Spawn()

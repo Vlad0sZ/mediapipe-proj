@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Runtime.Game.Interfaces;
+using Runtime.Game.Models;
 using Runtime.Game.Publishers;
 using Runtime.Game.ScriptableData;
 using Runtime.Game.Types;
@@ -8,25 +9,25 @@ using VContainer;
 
 namespace Runtime.Game.Controllers
 {
-    public sealed class GameModeSettingsController : MonoBehaviour, IGameModeSettings, ILevelSetup
+    public sealed class GameModeSettingsController : MonoBehaviour,
+        IGameModeSettings,
+        ILevelSetup
     {
         [SerializeField] private GameSettings gameSettings;
         [SerializeField] private FoodObjects foodObjects;
 
         private GameSettings.Settings _settings;
-        private ILevelPublisherSetup _levelPublisher;
         private readonly List<IGameModePayload> _modePayloads = new List<IGameModePayload>(16);
         private readonly List<IFoodPayload> _foodPayloads = new List<IFoodPayload>(16);
 
         private float _levelTime;
         private GameMode _currentMode;
+        private string _playerName;
 
         [Inject]
         public void Construct(IEnumerable<IGameModePayload> modsPayloads,
-            IEnumerable<IFoodPayload> foodPayloads,
-            ILevelPublisherSetup levelPublisher)
+            IEnumerable<IFoodPayload> foodPayloads)
         {
-            _levelPublisher = levelPublisher;
             _modePayloads.AddRange(modsPayloads);
             _foodPayloads.AddRange(foodPayloads);
         }
@@ -34,23 +35,27 @@ namespace Runtime.Game.Controllers
         public void SetupGameMode(GameMode gameMode) =>
             CurrentMode = gameMode;
 
+        public void SetPlayerName(string playerName) =>
+            _playerName = playerName;
+
+        public string GetPlayerName() =>
+            _playerName;
+
         public void SetLevelTime(float clamp01) =>
             _levelTime = Mathf.Clamp01(clamp01);
 
-        public float GetLevelTime()
+        public TimeModel GetLevelTime()
         {
-            var settings = GetLevelTimeSettings();
+            var settings = GetLevelSettings().LevelSettings;
             if (settings.Endless())
-                return 0;
+                return default;
 
-            return Mathf.Lerp(settings.minLevelTime, settings.maxLevelTime, _levelTime);
+            var seconds = Mathf.Lerp(settings.minLevelTime, settings.maxLevelTime, _levelTime);
+            return new TimeModel(seconds);
         }
 
-        public GameSettings.LevelSettings GetLevelTimeSettings()
-        {
-            var time = _settings?.LevelSettings ?? default;
-            return time;
-        }
+        public GameSettings.Settings GetLevelSettings() =>
+            _settings;
 
         public GameMode CurrentMode
         {
@@ -59,7 +64,6 @@ namespace Runtime.Game.Controllers
             {
                 _currentMode = value;
                 _settings = GenerateSettingsByMode(_currentMode);
-                _levelPublisher.Publish(_settings);
             }
         }
 

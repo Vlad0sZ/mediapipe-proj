@@ -9,11 +9,15 @@ namespace Runtime.Game.Interfaces
         Observable<ObjectSpawner.SpawnEvent> OnObjectSpawned { get; }
         
         Observable<bool> OnSpawnProcess { get; }
-        
+        void Configure(GameSettings.SpawnSettings spawnSettings);
         void ReleaseObject(GameObject releaseObject);
 
         void StartSpawn();
 
         void StopSpawn();
+
+        void Pause();
+
+        void Resume();
     }
 }

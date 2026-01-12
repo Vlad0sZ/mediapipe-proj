@@ -13,23 +13,23 @@ namespace Runtime.Machine.States
     [UsedImplicitly]
     public sealed class GameState : UIState
     {
-        private readonly IGameController _gameController;
+        private readonly ILevelController _levelController;
         private readonly IPauseController _pauseController;
         private readonly ICanvas _canvas;
         private IDisposable _disposable;
 
-        public GameState(ICanvas canvas, IGameController gameController, IPauseController pauseController) : base(
+        public GameState(ICanvas canvas, ILevelController levelController, IPauseController pauseController) : base(
             canvas, ScreenNames.Game)
         {
             _canvas = canvas;
-            _gameController = gameController;
+            _levelController = levelController;
             _pauseController = pauseController;
         }
 
         public override async UniTask ActivateAsync(CancellationToken ct)
         {
             await base.ActivateAsync(ct);
-            _gameController.StartLevel();
+            _levelController.StartLevel();
             _pauseController.StartControl();
             _disposable = _pauseController.OnPaused.Subscribe(OnPausedChanged);
         }
@@ -38,7 +38,7 @@ namespace Runtime.Machine.States
         {
             _disposable?.Dispose();
             _pauseController.StopControl();
-            _gameController.StopLevel();
+            _levelController.StopLevel();
             await base.DeactivateAsync(ct);
         }
 
@@ -47,12 +47,12 @@ namespace Runtime.Machine.States
             if (isPaused)
             {
                 _canvas.GetScreen(ScreenNames.Pause)?.Show();
-                _gameController.Pause();
+                _levelController.Pause();
             }
             else
             {
                 _canvas.GetScreen(ScreenNames.Pause)?.Hide();
-                _gameController.Resume();
+                _levelController.Resume();
             }
         }
     }

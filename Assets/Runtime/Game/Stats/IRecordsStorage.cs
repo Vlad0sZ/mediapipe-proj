@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using Runtime.Game.Models;
 
 namespace Runtime.Game.UI
 {
     public interface IRecordsStorage
     {
         IReadOnlyList<UserRecord> GetRecords();
-        void AddRecord(string userName, int userScore);
+        UserRecord AddRecord(string userName, int userScore);
     }
 }

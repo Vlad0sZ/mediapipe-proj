@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Runtime.Game.Models;
+using Runtime.Game.UI;
 using UnityEngine;
 
-namespace Runtime.Game.UI
+namespace Runtime.Game.Stats
 {
     public sealed class RecordsStorage : IRecordsStorage
     {
@@ -17,15 +19,16 @@ namespace Runtime.Game.UI
                 .ToList();
         }
 
-        public void AddRecord(string userName, int userScore)
+        public UserRecord AddRecord(string userName, int userScore)
         {
             var records = LoadRecords();
-
-            records.Add(new UserRecord
+            var userRecord = new UserRecord()
             {
                 userName = userName,
                 userScore = userScore
-            });
+            };
+
+            records.Add(userRecord);
 
             records = records
                 .OrderByDescending(r => r.userScore)
@@ -40,6 +43,7 @@ namespace Runtime.Game.UI
             }
 
             SaveRecords(records);
+            return records.LastOrDefault(x => x.userScore == userScore && x.userName == userName);
         }
 
         private static List<UserRecord> LoadRecords()

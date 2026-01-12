@@ -29,8 +29,8 @@ namespace Runtime.Game.UI
 
         private void UpdateScore(ScoreModel model)
         {
-            var score = model.Score;
-            scoreSlider.value = score / 100f;
+            var score = model.Progress();
+            scoreSlider.value = score;
         }
     }
 }

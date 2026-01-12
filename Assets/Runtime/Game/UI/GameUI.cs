@@ -2,31 +2,39 @@
 using Runtime.Game.ScriptableData;
 using Runtime.Game.Types;
 using UnityEngine;
+using VContainer;
 
 namespace Runtime.Game.UI
 {
-    public abstract class GameControl
-    {
-        public abstract void PrepareGame();
-
-        public abstract void OnGameStarted();
-
-        public abstract void OnGamePaused();
-
-        public abstract void OnGameResumed();
-
-        public abstract void OnGameStopped();
-    }
-
-
-
-    
     public class GameUI : AbstractGameScreenUI
     {
         [SerializeField] private GameObject timerUI;
         [SerializeField] private GameObject scoreUI;
         [SerializeField] private GameObject endlessUI;
-        
+
+        private IGameModeSettings _gameModeSettings;
+
+        [Inject]
+        public void Construct(IGameModeSettings gameModeSettings)
+        {
+            _gameModeSettings = gameModeSettings;
+        }
+
+
+        protected override void OnScreenShowing()
+        {
+            var mode = _gameModeSettings.CurrentMode;
+            timerUI.SetActive(mode != GameMode.Endless);
+            scoreUI.SetActive(mode != GameMode.Endless);
+            endlessUI.SetActive(mode == GameMode.Endless);
+        }
+
+        protected override void OnScreenHidden()
+        {
+            timerUI.SetActive(false);
+            scoreUI.SetActive(false);
+            endlessUI.SetActive(false);
+        }
     }
 
 

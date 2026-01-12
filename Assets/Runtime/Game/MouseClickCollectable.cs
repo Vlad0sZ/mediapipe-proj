@@ -9,12 +9,11 @@ namespace Runtime.Game
     public class MouseClickCollectable : MonoBehaviour, IPointerClickHandler
     {
         private ICollectableItem _collectableItem;
-        private void Awake() => _collectableItem = GetComponent<ICollectableItem>();
 
-        public void OnPointerClick(PointerEventData eventData)
-        {
-            UnityEngine.Debug.Log($"collect {_collectableItem.gameObject}");
+        private void Awake() =>
+            _collectableItem = GetComponent<ICollectableItem>();
+
+        public void OnPointerClick(PointerEventData eventData) =>
             _collectableItem.Collect();
-        }
     }
 }

@@ -46,7 +46,11 @@ namespace Runtime
         }
 
 
-        public static float GetNormalizedCoordinate(this KinectInterop.BodyData bodyData, KinectInterop.JointType jointType,
+        public static float Abs(this float v) => Mathf.Abs(v);
+        public static int Abs(this int v) => Mathf.Abs(v);
+
+        public static float GetNormalizedCoordinate(this KinectInterop.BodyData bodyData,
+            KinectInterop.JointType jointType,
             Coordinates coordinate) =>
             bodyData.joint[(int) jointType].kinectPos[(int) coordinate];
     }

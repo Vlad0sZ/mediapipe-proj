@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Runtime.Game.Interfaces;
+using UnityEngine;
 
 namespace Runtime.Game.Factories
 {
@@ -6,5 +7,7 @@ namespace Runtime.Game.Factories
     {
         void SpawnPlayer(Vector3 position);
         void RemovePlayer();
+
+        GameObject GetPlayer();
     }
 }

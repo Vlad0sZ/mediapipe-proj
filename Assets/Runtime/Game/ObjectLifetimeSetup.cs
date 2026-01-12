@@ -6,17 +6,20 @@ using UnityEngine;
 
 namespace Runtime.Game
 {
-    public class ObjectSetup : ObjectSpawnerOwner
+    public sealed class ObjectLifetimeSetup : ObjectSpawnerOwner
     {
         [SerializeField] private float objectLifetime;
-
-        private IDisposable _disposable;
         private readonly Dictionary<GameObject, IDisposable> _objectSubscriptions = new();
+        private IDisposable _disposable;
+        private IObjectSpawner _objectSpawner;
 
-        private void OnEnable() =>
-            _disposable = ObjectSpawner.OnObjectSpawned.Subscribe(SetupObject);
+        public override void Configure(IObjectSpawner objectSpawner)
+        {
+            _objectSpawner = objectSpawner;
+            _disposable = objectSpawner.OnObjectSpawned.Subscribe(SetupObject);
+        }
 
-        private void OnDisable() =>
+        public override void Deconstruct() =>
             _disposable?.Dispose();
 
         private void SetupObject(ObjectSpawner.SpawnEvent spawnEvent)
@@ -25,15 +28,15 @@ namespace Runtime.Game
                 return;
 
             var obj = createdEvent.Object;
-            var collectableItem = obj.GetComponent<ICollectableItem>();
             var lifetimeItem = obj.GetComponent<ILifetimeItem>();
+            var collectableItem = obj.GetComponent<ICollectableItem>();
 
-
-            var collectableDisposable = collectableItem?.CollectableSubject.Subscribe(SubscribeToRelease) ?? default;
-            var lifetimeDisposable = lifetimeItem?.LifetimeObservable.Subscribe(SubscribeToRelease) ?? default;
+            var collectableDisposable = collectableItem?.CollectableSubject.Subscribe(SubscribeToCollect);
+            var lifetimeDisposable = lifetimeItem?.LifetimeObservable.Subscribe(SubscribeToRelease);
             lifetimeItem?.SetLifetime(objectLifetime);
 
             var builder = Disposable.CreateBuilder();
+
             if (collectableDisposable != null)
                 builder.Add(collectableDisposable);
 
@@ -45,9 +48,22 @@ namespace Runtime.Game
 
         private void SubscribeToRelease(IGameObject obj)
         {
+            SubscribeToCollect(obj);
+            _objectSpawner.ReleaseObject(obj.gameObject);
+        }
+
+        private void SubscribeToCollect(IGameObject obj)
+        {
             _objectSubscriptions.GetValueOrDefault(obj.gameObject)?.Dispose();
             _objectSubscriptions.Remove(obj.gameObject);
-            ObjectSpawner.ReleaseObject(obj.gameObject);
+        }
+
+        private void OnDestroy()
+        {
+            foreach (var subs in _objectSubscriptions)
+                subs.Value?.Dispose();
+
+            _objectSubscriptions.Clear();
         }
     }
 }

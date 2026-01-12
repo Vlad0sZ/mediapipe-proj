@@ -15,6 +15,7 @@ namespace Runtime.Game.Controllers
         private IDisposable _disposable;
         private bool _isPaused;
         private float _timeToRaise;
+
         public Observable<bool> OnPaused => _pauseSubject;
 
         public bool Paused
@@ -43,21 +44,25 @@ namespace Runtime.Game.Controllers
 
         private void OnPlayerEvent(PlayerPose playerPose)
         {
-            if (playerPose.IsVisible == false)
-            {
-                Paused = true;
-            }
-            else if (playerPose.HandRaiseType == HandRaiseType.HandsRaised)
-            {
-                _timeToRaise += Time.deltaTime;
-            }
-            else
-            {
-                _timeToRaise = 0f;
-            }
+            var time = UpdateTime(playerPose);
+            var paused = time >= 0f;
+            var abs = Mathf.Abs(time);
 
-            if (_timeToRaise > 2f)
-                Paused = false;
+            if (abs > 2f)
+                Paused = paused;
+        }
+
+
+        private float UpdateTime(PlayerPose playerPose)
+        {
+            if (playerPose.IsVisible == false && _isPaused == false)
+                _timeToRaise += Time.deltaTime;
+            else if (playerPose.HandRaiseType == HandRaiseType.HandsRaised && _isPaused)
+                _timeToRaise -= Time.deltaTime;
+            else
+                _timeToRaise = 0f;
+
+            return _timeToRaise;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Runtime.Game.Interfaces;
+using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
@@ -43,6 +44,11 @@ namespace Runtime.Game.Factories
                 return;
 
             _playerInstance.SetActive(false);
+        }
+
+        public GameObject GetPlayer()
+        {
+            return _playerInstance;
         }
 
         private void OnDestroy()

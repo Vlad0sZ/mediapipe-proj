@@ -28,14 +28,22 @@ namespace Runtime.Machine
             _cts?.Dispose();
 
             _cts = new CancellationTokenSource();
-            _ = ChangeStateAsync(state, _cts.Token);
+            ChangeStateAsync(state, _cts.Token).Forget();
         }
 
         private async UniTask ChangeStateAsync(IAsyncState state, CancellationToken ct)
         {
-            await DeactivateStateAsync(_currentState, ct);
-            _currentState = state;
-            await ActivateStateAsync(_currentState, ct);
+            try
+            {
+                await DeactivateStateAsync(_currentState, ct);
+                _currentState = state;
+                await ActivateStateAsync(_currentState, ct);
+            }
+            catch (Exception ex) when (!(ex is OperationCanceledException))
+            {
+                UnityEngine.Debug.Log("exceptions when state changed:");
+                UnityEngine.Debug.LogError(ex);
+            }
         }
 
         private static async UniTask DeactivateStateAsync(IAsyncState state, CancellationToken ct)

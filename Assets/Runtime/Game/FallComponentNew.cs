@@ -14,21 +14,29 @@ namespace Runtime.Game
 
         [Header("Limits")] [SerializeField] private float disableY = -10f;
 
-        private void OnEnable()
-        {
-            // Optional reset logic can be added here if needed
-        }
+        private bool _isFall;
 
         public void Setup(GameSettings.ObjectsSettings payload)
         {
             fallSpeed = payload.minMaxFallSpeed.AsMinMaxNext();
             rotationSpeed = payload.minMaxRotationSpeed.AsMinMaxNext();
+            _isFall = true;
         }
+
+        public void StopMove() =>
+            _isFall = false;
+
+        public void ContinueMove() =>
+            _isFall = true;
 
         private void Update()
         {
-            MoveDown();
             Rotate();
+
+            if (!_isFall)
+                return;
+
+            MoveDown();
             CheckDisableCondition();
         }
 

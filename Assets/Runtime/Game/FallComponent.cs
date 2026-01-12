@@ -70,5 +70,30 @@ namespace Runtime.Game
             vel.y = Mathf.Min(vel.y, 0f);
             _rigidbody.linearVelocity = vel;
         }
+
+        public void StopMove()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ContinueMove()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetFallSpeed(float value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetRotationSpeed(float value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetRotationAxis(Vector3 axis)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

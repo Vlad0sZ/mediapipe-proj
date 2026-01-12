@@ -1,4 +1,5 @@
 ﻿using Runtime.Game.Interfaces;
+using Runtime.Game.Models;
 using TMPro;
 using UnityEngine;
 

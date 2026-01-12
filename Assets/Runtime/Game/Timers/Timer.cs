@@ -8,22 +8,18 @@ namespace Runtime.Game.Timers
     [UsedImplicitly]
     public sealed class Timer : ITimer
     {
-        private readonly IGameModeSettings _gameModeSettings;
         private readonly Subject<ElapsedTime> _progress = new();
         public Observable<ElapsedTime> Event => _progress;
 
-        public Timer(IGameModeSettings settings) =>
-            _gameModeSettings = settings;
 
         private float _totalTimes;
         private float _time;
         private bool _isRunning;
         private bool _isPaused;
 
-        public void StartTimer()
+        public void StartTimer(float seconds)
         {
-            _totalTimes = _gameModeSettings.GetLevelTime();
-
+            _totalTimes = seconds;
             if (_totalTimes <= 0)
                 return;
 
@@ -66,8 +62,8 @@ namespace Runtime.Game.Timers
             }
             else
             {
-                _progress.OnNext(new ElapsedTime(_totalTimes, 1f));
                 _isRunning = false;
+                _progress.OnNext(new ElapsedTime(_totalTimes, 1f));
             }
         }
     }

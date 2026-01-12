@@ -9,39 +9,48 @@ namespace Runtime.Game
 {
     public class ObjectCollectSetup : ObjectSpawnerOwner, IScorePublisher
     {
-        [SerializeField] private int score;
-
         private readonly Dictionary<GameObject, IDisposable> _subscriptions = new();
         private readonly Subject<ScoreModel> _scoreSubject = new();
         private IDisposable _disposable;
+        private IObjectSpawner _objectSpawner;
 
-        public ScoreModel Score => new ScoreModel(score);
+        private ScoreModel _scoreModel;
+
+        public ScoreModel Score
+        {
+            get => _scoreModel;
+
+            private set
+            {
+                _scoreModel = value;
+                _scoreSubject.OnNext(_scoreModel);
+            }
+        }
+
         public Observable<ScoreModel> OnScore => _scoreSubject;
 
-        private void OnEnable()
+        public override void Configure(IObjectSpawner objectSpawner)
         {
-            score = 0;
-
-            var createSub = ObjectSpawner.OnObjectSpawned
+            _objectSpawner = objectSpawner;
+            
+            var createSub = objectSpawner.OnObjectSpawned
                 .Where(u => u is ObjectSpawner.SpawnEvent.Created)
                 .Select(u => u.Object)
                 .Subscribe(SubscribeToCollect);
 
-            var releaseSub = ObjectSpawner.OnObjectSpawned
+            var releaseSub = objectSpawner.OnObjectSpawned
                 .Where(u => u is ObjectSpawner.SpawnEvent.Released)
                 .Select(u => u.Object)
                 .Subscribe(SubscribeToRelease);
 
-            var spawnSub = ObjectSpawner.OnSpawnProcess
+            var spawnSub = objectSpawner.OnSpawnProcess
                 .Subscribe(SubscribeToSpawnProcess);
 
             _disposable = Disposable.Combine(createSub, releaseSub, spawnSub);
         }
 
-        private void OnDisable()
-        {
+        public override void Deconstruct() =>
             _disposable?.Dispose();
-        }
 
 
         private void SubscribeToCollect(GameObject obj)
@@ -62,13 +71,22 @@ namespace Runtime.Game
         private void SubscribeToSpawnProcess(bool isSpawningNow)
         {
             if (isSpawningNow)
-                score = 0;
+                Score = default;
         }
 
         private void Collect(ICollectableItem collectable)
         {
-            score += collectable.Points;
-            _scoreSubject.OnNext(new ScoreModel(score));
+            var points = collectable.Points;
+            var positive = Score.PositiveScore;
+            var negative = Score.NegativeScore;
+
+            if (points > 0)
+                positive += points;
+            else
+                negative += points;
+
+            Score = new ScoreModel(positive, negative);
+            _objectSpawner.ReleaseObject(collectable.gameObject);
         }
     }
 }

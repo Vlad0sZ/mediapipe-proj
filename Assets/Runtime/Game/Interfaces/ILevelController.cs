@@ -1,6 +1,6 @@
 ﻿namespace Runtime.Game.Interfaces
 {
-    public interface IGameController
+    public interface ILevelController
     {
         void StartLevel();
 

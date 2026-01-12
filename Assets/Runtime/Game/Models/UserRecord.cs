@@ -1,4 +1,4 @@
-﻿namespace Runtime.Game.UI
+﻿namespace Runtime.Game.Models
 {
     [System.Serializable]
     public struct UserRecord
