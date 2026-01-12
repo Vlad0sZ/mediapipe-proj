@@ -187,7 +187,7 @@ namespace Runtime.Game.TrainingCustoms
             var item = await _trainingSpawner.SpawnWrongItemAsync(token);
             var collectSub = item.CollectableSubject.Subscribe(_ => tcs.TrySetResult());
 
-            _trainingSpawner.FreezeOnHeightAsync(item, targetY: 0.8f, token).Forget();
+            _trainingSpawner.FreezeOnHeightAsync(item, targetY: 1f, token).Forget();
             await UniTask.Delay(TimeSpan.FromSeconds(2.5f), DelayType.Realtime, PlayerLoopTiming.Update, token);
             _trainingUi.ShowCollectHintOnItem(item, false);
 
@@ -223,7 +223,7 @@ namespace Runtime.Game.TrainingCustoms
             await handler.WaitForRaiseType(token);
             _trainingUi.HideHints();
 
-            _timer.StartTimer(30f);
+            _timer.StartTimer(25f);
             _isTrainingFinished = true;
 
             _spawnerSetup.AddSpawnerChain(_foodChain);

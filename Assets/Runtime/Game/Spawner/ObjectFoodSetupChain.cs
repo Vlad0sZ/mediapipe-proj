@@ -38,7 +38,12 @@ namespace Runtime.Game.Spawner
             else
             {
                 var mesh = child.GetComponent<MeshFilter>();
-                mesh.sharedMesh = nextModel.Prefab.GetComponent<MeshFilter>().sharedMesh;
+                var renderer = child.GetComponent<Renderer>();
+
+                var prefab = nextModel.Prefab;
+
+                renderer.sharedMaterial = prefab.GetComponent<Renderer>().sharedMaterial;
+                mesh.sharedMesh = prefab.GetComponent<MeshFilter>().sharedMesh;
             }
 
             if (gameObject.TryGetComponent<ICollectableItem>(out var collectable))

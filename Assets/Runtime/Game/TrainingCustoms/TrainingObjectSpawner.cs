@@ -39,11 +39,27 @@ namespace Runtime.Game.TrainingCustoms
                 _spawnerSetup.RemoveSpawnerChain(_latestChain);
         }
 
-        public async UniTask<ICollectableItem> SpawnCorrectItemAsync(CancellationToken token) =>
-            await SpawnSingleItemAsync(positive: true, token);
+        public async UniTask<ICollectableItem> SpawnCorrectItemAsync(CancellationToken token)
+        {
+            _objectSpawner.Configure(new GameSettings.SpawnSettings()
+            {
+                maxObjectPerSpawn =  1,
+                spawnDelay = 3,
+            });
+            
+            return await SpawnSingleItemAsync(positive: true, token);
+        }
 
-        public async UniTask<ICollectableItem> SpawnWrongItemAsync(CancellationToken token) =>
-            await SpawnSingleItemAsync(positive: false, token);
+        public async UniTask<ICollectableItem> SpawnWrongItemAsync(CancellationToken token)
+        {
+            _objectSpawner.Configure(new GameSettings.SpawnSettings()
+            {
+                maxObjectPerSpawn =  1,
+                spawnDelay = 7,
+            });
+            
+            return await SpawnSingleItemAsync(positive: false, token);
+        }
 
         public async UniTask FreezeOnHeightAsync(ICollectableItem item, float targetY, CancellationToken token)
         {
@@ -82,7 +98,8 @@ namespace Runtime.Game.TrainingCustoms
             if (_latestChain != null)
                 _spawnerSetup.RemoveSpawnerChain(_latestChain);
 
-            _latestChain = new TrainingObjectChain(food.Prefab, tcs);
+            var points = positive ? 1 : -1;
+            _latestChain = new TrainingObjectChain(points, food.Prefab, tcs);
             _spawnerSetup.AddSpawnerChain(_latestChain);
 
             _objectSpawner.Resume();

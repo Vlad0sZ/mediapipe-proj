@@ -12,6 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eb65cc2d97147d197135ae45fb2591b, type: 3}
   m_Name: Food Objects
   m_EditorClassIdentifier: Assembly-CSharp::Runtime.Game.ScriptableData.FoodObjects
+  trainingGroup:
+    label: "\u0422\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043E\u0447\u043D\u0430\u044F
+      \u0433\u0440\u0443\u043F\u043F\u0430"
+    rightObjects:
+    - {fileID: 11400000, guid: fd89661b28b70864e975eafac99cd6bf, type: 2}
+    wrongObjects:
+    - {fileID: 11400000, guid: d9cbc67d5ab62cb4f96918960ff005ac, type: 2}
   foodObjects:
   - label: "\u0421\u0443\u0448\u0438"
     rightObjects:

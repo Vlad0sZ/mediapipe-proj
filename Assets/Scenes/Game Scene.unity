@@ -854,14 +854,14 @@ Canvas:
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
-  m_OverrideSorting: 0
+  m_OverrideSorting: 1
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_TargetDisplay: 0
 --- !u!114 &124135797
 MonoBehaviour:
@@ -11652,10 +11652,10 @@ RectTransform:
   - {fileID: 1965211315}
   - {fileID: 361621082}
   - {fileID: 1644521417}
-  - {fileID: 124135790}
+  - {fileID: 297264590}
   - {fileID: 93673005}
   - {fileID: 257910875}
-  - {fileID: 297264590}
+  - {fileID: 124135790}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

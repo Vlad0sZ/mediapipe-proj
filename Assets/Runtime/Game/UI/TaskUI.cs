@@ -11,7 +11,7 @@ namespace Runtime.Game.UI
     public abstract class TaskUI : AbstractGameScreenUI
     {
         [Inject] protected IFoodGroupProvider FoodGroupProvider { get; set; }
-        
+
         protected string GenerateCurrentTask()
         {
             var foodGroup = FoodGroupProvider?.GetCurrentFoodGroup();
@@ -21,8 +21,11 @@ namespace Runtime.Game.UI
             return GetTaskString(foodGroup.label, foodGroup.Rights);
         }
 
-        private static string GetTaskString(string foodGroupLabel, IEnumerable<FoodWithIcon> rights)
+        private static string GetTaskString(string foodGroupLabel, IReadOnlyList<FoodWithIcon> rights)
         {
+            if (rights.Any(x => x.Icon == null))
+                return string.Empty;
+
             var sb = new StringBuilder();
             sb.AppendLine()
                 .Append("Лови только те предметы, которые входят в состав ")

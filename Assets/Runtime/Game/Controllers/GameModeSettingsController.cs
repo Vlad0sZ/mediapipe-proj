@@ -72,7 +72,9 @@ namespace Runtime.Game.Controllers
             if (_settings == null)
                 CurrentMode = GameMode.Classic;
 
-            var objectsData = foodObjects.GetNextGroup();
+            var objectsData = CurrentMode == GameMode.Training
+                ? foodObjects.GetTrainingGroup()
+                : foodObjects.GetNextGroup();
 
             foreach (var payload in _modePayloads)
                 payload.Setup(this);

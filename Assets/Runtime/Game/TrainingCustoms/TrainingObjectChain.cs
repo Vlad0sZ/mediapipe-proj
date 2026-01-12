@@ -12,11 +12,13 @@ namespace Runtime.Game.TrainingCustoms
         private readonly GameObject _prefab;
         private readonly UniTaskCompletionSource<ICollectableItem> _tcs;
         private readonly Dictionary<GameObject, GameObject> _parents = new();
+        private readonly int _points;
 
-        public TrainingObjectChain(GameObject prefab, UniTaskCompletionSource<ICollectableItem> tcs)
+        public TrainingObjectChain(int points, GameObject prefab, UniTaskCompletionSource<ICollectableItem> tcs)
         {
             _prefab = prefab;
             _tcs = tcs;
+            _points = points;
         }
 
         public void OnSpawned(GameObject gameObject)
@@ -26,6 +28,9 @@ namespace Runtime.Game.TrainingCustoms
 
             if(gameObject.TryGetComponent<ILifetimeItem>(out var lifetimeItem))
                 lifetimeItem.SetLifetime(0);
+
+            if (gameObject.TryGetComponent<ICollectableItem>(out var collectable))
+                collectable.Points = _points;
             
             var instance = UnityEngine.Object.Instantiate(_prefab, gameObject.transform, false);
             instance.transform.localPosition = Vector3.zero;

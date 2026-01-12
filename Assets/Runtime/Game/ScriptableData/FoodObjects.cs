@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Runtime.Game.Types;
 using Runtime.Infrastructure.Stacks;
 using UnityEngine;
 
@@ -19,7 +20,9 @@ namespace Runtime.Game.ScriptableData
             public FoodWithIcon[] Wrong => wrongObjects;
         }
 
+        [SerializeField] private FoodGroup trainingGroup;
         [SerializeField] private FoodGroup[] foodObjects;
+        
         private IStack<FoodGroup> _objStack = null;
 
         public FoodGroup GetNextGroup()
@@ -28,17 +31,7 @@ namespace Runtime.Game.ScriptableData
             return _objStack.GetNext();
         }
 
-        public FoodWithIcon FindObject(string foodName)
-        {
-            var allObjects = foodObjects
-                .SelectMany(x => x.Rights)
-                .Union(foodObjects.SelectMany(x => x.Wrong))
-                .Distinct();
-
-            var firstFoundObject = allObjects
-                .FirstOrDefault(x => x.IsName(foodName));
-
-            return firstFoundObject;
-        }
+        public FoodGroup GetTrainingGroup() => 
+            trainingGroup;
     }
 }
