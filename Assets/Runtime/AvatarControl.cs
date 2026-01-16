@@ -9,9 +9,9 @@ namespace Runtime
         public Transform headTarget;
         public Transform leftHandTarget;
         public Transform leftHintTarget;
-        
+
         private KinectManager _kinectManager;
-        
+
         private void Start()
         {
             _kinectManager = KinectManager.Instance;
@@ -26,6 +26,11 @@ namespace Runtime
             var bodyData = _kinectManager.GetUserBodyDataByIndex(0);
             var headPos = bodyData.joint[(int) KinectInterop.JointType.Head].kinectPos;
             headTarget.position = headPos;
+        }
+
+
+        private void TransformIKJoint(Transform target, Transform hint)
+        {
         }
     }
 }

@@ -158,7 +158,7 @@ namespace SensorPack.Addons.Mediapipe
                     // var y = 1f - ((0.5f - point.y) * 2f); // меняем 2f - чем больше, тем "выше/ниже" будут руки.
                     // var z = 0.6f; // point.z
                     
-                    return new Vector3(point.x, point.y, 0.6f);//point.z);
+                    return new Vector3(point.x, point.y, point.z);
                     //z-координата от Mediapipe не является глубиной, при этом в KinectManager идёт проверка на значение не меньше 0.5.
                 }
                 
