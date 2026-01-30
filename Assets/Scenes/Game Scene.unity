@@ -6585,7 +6585,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Runtime.Game.Factories.PlayerFactory
   spawnParent: {fileID: 177853211}
-  playerPrefab: {fileID: 8078623862087887409, guid: 4a17fce8f79ce524d93cc4b8b6fb63c9, type: 3}
+  playerPrefab: {fileID: 1677050244202108423, guid: 50626e23686365547af381195bede136, type: 3}
 --- !u!4 &815315744
 Transform:
   m_ObjectHideFlags: 0

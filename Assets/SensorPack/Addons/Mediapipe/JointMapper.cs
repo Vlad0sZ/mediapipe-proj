@@ -194,7 +194,7 @@ namespace SensorPack.Addons.Mediapipe
                         return Vector3.zero;
                     
                     var point = relativeWorldLandmarks.landmarks[index];
-                    return new Vector3(point.x, -point.y, 0.6f + point.z);
+                    return new Vector3(point.x, point.y,  point.z +0.5f); // 0.003
                 }
 
                 TrackingState GetMediaPipeTracked(JointTypeMediapipe jointType)

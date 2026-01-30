@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SensorPack.KinectCore.Runtime;
 using UnityEngine;
 
@@ -26,6 +27,10 @@ namespace Runtime
 
         [Header("Configuration")] public List<BoneTargetPair> boneConfigs = new();
         [Header("Settings")] public float smooth;
+
+        [SerializeField] private float size;
+        
+        private Vector3 _latestPos;
 
         public override void Initialize(KinectManager km)
         {
@@ -69,12 +74,25 @@ namespace Runtime
             {
                 Vector3 scaledDir = (humanDir / humanLen) * boneLength;
                 Vector3 targetPos = basePos + scaledDir;
+                _latestPos = targetPos;
 
                 config.target.position = Vector3.Lerp(
                     config.target.position,
                     targetPos,
                     smooth * Time.deltaTime);
             }
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (_latestPos == Vector3.zero)
+                return;
+            
+            
+            Gizmos.color = Color.yellow;
+
+            Gizmos.DrawSphere(_latestPos, size);
+            UnityEditor.Handles.Label(_latestPos, $"j: {boneConfigs[0].tipJoint}");
         }
 
         private bool IsJointTracked(KinectInterop.JointType jointType, out Vector3 position)

@@ -6,32 +6,45 @@ namespace Runtime.Game
 {
     public class HandCollectable : MonoBehaviour
     {
-        [SerializeField] private Camera _mainCamera;
-        private readonly RaycastHit[] _buffer = new RaycastHit[10];
+        [SerializeField] private float castRadius = 1.0f;
+        [SerializeField] private float castDistance = 1.0f;
 
-        private void Start()
-        {
-            if (_mainCamera == null)
-                _mainCamera = Camera.main;
-        }
+        private Transform _transform;
+        private readonly Collider[] _buffer = new Collider[10];
+
+        private void Start() =>
+            _transform = transform;
 
         private void FixedUpdate()
         {
-            if (_mainCamera == null)
-                return;
+            var origin = _transform.position;
+            var forward = Vector3.forward;
 
-            var screenPoint = _mainCamera.WorldToScreenPoint(transform.position);
-            var ray = _mainCamera.ScreenPointToRay(screenPoint, Camera.MonoOrStereoscopicEye.Mono);
-            var collected = Physics.RaycastNonAlloc(ray, _buffer, float.MaxValue);
+            var forwardPoint = origin + forward * castDistance;
+            var backwardPoint = origin - forward * castDistance;
 
-            if (collected == 0)
-                return;
-
-            for (int i = 0; i < collected; i++)
+            int hits = Physics.OverlapCapsuleNonAlloc(backwardPoint, forwardPoint, castRadius, _buffer);
+            for (int i = 0; i < hits; i++)
             {
-                if (_buffer[i].collider.TryGetComponent<ICollectableItem>(out var comp))
+                if (_buffer[i].TryGetComponent<ICollectableItem>(out var comp))
                     comp.Collect();
             }
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.cyan;
+            var tr = transform;
+            var forward = Vector3.forward;
+            var origin = tr.position;
+
+            Vector3 p1 = origin + forward * castDistance;
+            Vector3 p2 = origin - forward * castDistance;
+
+            // Рисуем линию между центрами и сферы на концах
+            Gizmos.DrawLine(p1, p2);
+            Gizmos.DrawWireSphere(p1, castRadius);
+            Gizmos.DrawWireSphere(p2, castRadius);
         }
     }
 }

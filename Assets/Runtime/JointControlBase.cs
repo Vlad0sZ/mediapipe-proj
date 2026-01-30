@@ -30,7 +30,7 @@ namespace Runtime
 
         private void Update()
         {
-            if (!_initialized)
+            if (!_initialized || !enabled)
                 return;
 
             ForEach(c => c.UpdateBones());

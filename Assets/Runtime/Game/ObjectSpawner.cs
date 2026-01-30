@@ -134,11 +134,7 @@ namespace Runtime.Game
 
             var max = Mathf.Max(1, maxObjects);
             var countToSpawn = Random.Range(1, max);
-            for (int i = 1; i <= countToSpawn; i++)
-            {
-                UnityEngine.Debug.LogWarning($"Spawn time {i}");
-                Spawn();
-            }
+            for (int i = 1; i <= countToSpawn; i++) Spawn();
         }
 
         private void Spawn()
