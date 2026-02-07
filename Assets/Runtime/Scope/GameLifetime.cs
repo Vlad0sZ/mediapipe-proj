@@ -1,4 +1,5 @@
-﻿using Runtime.Game;
+﻿using Runtime.CharacterPersonalization;
+using Runtime.Game;
 using Runtime.Game.Controllers;
 using Runtime.Game.Embient;
 using Runtime.Game.Factories;
@@ -53,6 +54,7 @@ namespace Runtime.Scope
             builder.Register<GameOverState>(Lifetime.Scoped);
             builder.Register<ExitGameState>(Lifetime.Scoped);
             builder.Register<RecordsState>(Lifetime.Scoped);
+            builder.Register<CharacterSetupState>(Lifetime.Scoped);
 
             builder.Register<IGameControl, ClassicGameControl>(Lifetime.Scoped).Keyed(GameMode.Classic);
             builder.Register<IGameControl, EndlessGameControl>(Lifetime.Scoped).Keyed(GameMode.Endless);
@@ -71,6 +73,7 @@ namespace Runtime.Scope
                 .As<IGameModeSettings>()
                 .As<ILevelSetup>();
 
+            builder.RegisterComponentInHierarchy<CharacterCustomizer>();
             builder.RegisterComponentInHierarchy<ObjectSpawner>().As<IObjectSpawner>();
             builder.RegisterComponentInHierarchy<ObjectChainSetup>().As<ISpawnerSetup>();
             builder.RegisterComponentInHierarchy<UIController>().As<ICanvas>();

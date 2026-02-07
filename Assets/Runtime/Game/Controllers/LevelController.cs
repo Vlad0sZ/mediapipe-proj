@@ -59,6 +59,7 @@ namespace Runtime.Game.Controllers
 
             _cameraController.LiveMainCamera();
             _playerFactory.RemovePlayer();
+            _playerFactory.SetupPlayer(null);
         }
 
 

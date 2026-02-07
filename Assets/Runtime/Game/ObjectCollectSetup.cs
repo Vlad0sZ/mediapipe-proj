@@ -9,6 +9,9 @@ namespace Runtime.Game
 {
     public class ObjectCollectSetup : ObjectSpawnerOwner, IScorePublisher
     {
+        public ParticleSystem successParticles;
+        public ParticleSystem failureParticles;
+
         private readonly Dictionary<GameObject, IDisposable> _subscriptions = new();
         private readonly Subject<ScoreModel> _scoreSubject = new();
         private IDisposable _disposable;
@@ -32,7 +35,7 @@ namespace Runtime.Game
         public override void Configure(IObjectSpawner objectSpawner)
         {
             _objectSpawner = objectSpawner;
-            
+
             var createSub = objectSpawner.OnObjectSpawned
                 .Where(u => u is ObjectSpawner.SpawnEvent.Created)
                 .Select(u => u.Object)
@@ -81,9 +84,17 @@ namespace Runtime.Game
             var negative = Score.NegativeScore;
 
             if (points > 0)
+            {
+                if (successParticles)
+                    Instantiate(successParticles, collectable.gameObject.transform.position, Quaternion.identity);
                 positive += points;
+            }
             else
+            {
+                if (failureParticles)
+                    Instantiate(failureParticles, collectable.gameObject.transform.position, Quaternion.identity);
                 negative += points;
+            }
 
             Score = new ScoreModel(positive, negative);
             _objectSpawner.ReleaseObject(collectable.gameObject);

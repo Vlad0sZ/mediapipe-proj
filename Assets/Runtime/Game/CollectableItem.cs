@@ -2,6 +2,7 @@
 using R3;
 using Runtime.Game.Interfaces;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Runtime.Game
 {
@@ -12,6 +13,8 @@ namespace Runtime.Game
 
         private float _lifetime;
         private float _deadTime;
+
+        public UnityEvent OnCollect = new();
 
         public Observable<ICollectableItem> CollectableSubject => _collectableSubject;
 
@@ -25,8 +28,11 @@ namespace Runtime.Game
         private void OnDisable() =>
             _deadTime = 0;
 
-        public void Collect() =>
+        public void Collect()
+        {
+            OnCollect.Invoke();
             _collectableSubject.OnNext(this);
+        }
 
         public void SetLifetime(float seconds) =>
             _deadTime = seconds;

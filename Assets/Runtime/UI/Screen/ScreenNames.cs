@@ -12,6 +12,7 @@
         public static ScreenNames Loading => new ScreenNames(nameof(Loading));
         public static ScreenNames Records => new ScreenNames(nameof(Records));
         public static ScreenNames Pause => new ScreenNames(nameof(Pause));
+        public static ScreenNames Character => new ScreenNames(nameof(Character));
 
         public static implicit operator string(ScreenNames name) =>
             name.Name;

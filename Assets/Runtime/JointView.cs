@@ -25,21 +25,31 @@ namespace Runtime
 
         private float _boneLength;
         private bool _lastStateVisible;
+        private IWeightSetter _weightSetter;
 
         private void Start()
         {
             if (boneTarget != null && boneTarget.parent != null)
                 _boneLength = Vector3.Distance(boneTarget.position, boneTarget.parent.position);
+
+            _weightSetter = GetComponent<IWeightSetter>();
         }
-        
+
         private void Update()
+        {
+            bool isTransformed = TransformBone();
+            _weightSetter?.SetWeight(isTransformed ? 1f : 0f);
+        }
+
+
+        private bool TransformBone()
         {
             var km = KinectManager.Instance;
             if (km == null || km.IsInitialized() == false)
-                return;
+                return false;
 
             if (km.IsUserDetected(playerIndex) == false)
-                return;
+                return false;
 
             var userId = km.GetUserIdByIndex(playerIndex);
 
@@ -48,16 +58,15 @@ namespace Runtime
 
             _lastStateVisible = isRootTracked && isTargetTracked;
             if (!isRootTracked || !isTargetTracked)
-                return;
+                return false;
 
             if (_boneLength <= 0)
-                return;
-
+                return false;
 
             var distance = targetPos - rootPos;
 
             if (distance.sqrMagnitude <= Mathf.Epsilon)
-                return;
+                return false;
 
             var dirNorm = distance.normalized;
             Transform referenceSpace = (target.parent != null) ? target.parent : transform;
@@ -67,6 +76,7 @@ namespace Runtime
                 target.position = Vector3.Lerp(target.position, worldPos, smoothFactor * Time.deltaTime);
             else
                 target.position = worldPos;
+            return true;
         }
 
 

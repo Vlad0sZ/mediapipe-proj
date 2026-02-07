@@ -1,4 +1,5 @@
-﻿using Runtime.Game.Interfaces;
+﻿using System.Collections.Generic;
+using Runtime.Game.Interfaces;
 using UnityEngine;
 
 namespace Runtime.Game.Factories
@@ -9,5 +10,7 @@ namespace Runtime.Game.Factories
         void RemovePlayer();
 
         GameObject GetPlayer();
+
+        void SetupPlayer(Dictionary<string, int> skinSettings);
     }
 }
