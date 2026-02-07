@@ -92,7 +92,9 @@ namespace Runtime
             Gizmos.color = Color.yellow;
 
             Gizmos.DrawSphere(_latestPos, size);
+            #if UNITY_EDITOR
             UnityEditor.Handles.Label(_latestPos, $"j: {boneConfigs[0].tipJoint}");
+            #endif
         }
 
         private bool IsJointTracked(KinectInterop.JointType jointType, out Vector3 position)

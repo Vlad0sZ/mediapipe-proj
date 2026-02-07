@@ -31,7 +31,7 @@ namespace Runtime
             if (boneTarget != null && boneTarget.parent != null)
                 _boneLength = Vector3.Distance(boneTarget.position, boneTarget.parent.position);
         }
-
+        
         private void Update()
         {
             var km = KinectManager.Instance;
